@@ -1,0 +1,9 @@
+---
+- name: dhcpd stop
+  service:
+    name: isc-dhcp-server
+    state: stopped
+- name: dhcpd restart
+  service:
+    name: isc-dhcp-server
+    state: restarted

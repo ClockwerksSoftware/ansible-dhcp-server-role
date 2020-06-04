@@ -1,0 +1,22 @@
+---
+
+- name: configure interfaces
+  lineinfile:                                                                                 
+    path: /etc/default/isc-dhcp-server
+    regexp: "^INTERFACESv4="
+    line: INTERFACESv4="{{ dhcp_interfaces|join(' ') }}"  
+  notify:
+    - dhcpd restart 
+
+- name: configure service
+  template:
+    src: dhcpd.conf.j2
+    dest: /etc/dhcp/dhcpd.conf
+    owner: root
+    group: root
+    mode: '0644'
+    validate: /usr/sbin/dhcpd -t -cf %s
+    backup: yes
+  notify:
+    - dhcpd restart 
+

@@ -1,0 +1,23 @@
+ddns-update-style none;
+option domain-name "{{ dhcp_domain_name }}";
+default-lease-time {{ dhcp_lease_time_default }};
+max-lease-time {{ dhcp_lease_time_max }};
+log-facility {{ dhcp_syslog_facility }};
+{% if dhcp_authoritative %}
+authoritative;
+{% endif %}
+{% for netconfig in dhcp_network_configs %}
+subnet {{ netconfig.network }} netmask {{ netconfig.netmask }} {
+    range {{ netconfig.range_start }} {{ netconfig.range_end }};
+    option routers {% for router in netconfig.routers %}{% if loop.nextitem is defined %}{{router }}, {% else %}{{ router }};{% endif %}{% endfor %}
+
+    option domain-name-servers {% for dns_server in netconfig.dns_servers %}{% if loop.nextitem is defined %}{{ dns_server }}, {% else %}{{ dns_server }};{% endif %}{% endfor %}
+
+}
+{% endfor %}
+{% for managed_host in dhcp_managed_hosts %}
+host {{ managed_host.name }} {
+    hardware ethernet {{ managed_host.ethernet }};
+    fixed-address {{ managed_host.dns_name }};
+}
+{% endfor %}

@@ -1,0 +1,13 @@
+---
+- import_tasks: install_dhcpd.yml
+  tags:
+    - dhcpd
+    - dhcpd.install
+- import_tasks: configure_dhcpd.yml
+  tags:
+    - dhcpd
+    - dhcpd.configure
+- import_tasks: start_dhcpd.yml
+  tags:
+    - dhcpd
+    - dhcpd.start

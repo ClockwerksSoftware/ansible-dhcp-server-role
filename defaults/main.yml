@@ -1,0 +1,28 @@
+---
+dhcp_interfaces:
+  - "eth0"
+dhcp_domain_name: "localhost"
+dhcp_lease_time_default: 7200
+dhcp_lease_time_max: 86400
+dhcp_authoritative: True
+dhcp_syslog_facility: "local7"
+dhcp_network_configs:
+  - {
+      network: 192.168.2.0,
+      netmask: 255.255.255.0,
+      range_start: 192.168.2.100,
+      range_end: 192.168.2.254,
+      routers: [],
+      dns_servers: []
+    }
+dhcp_managed_hosts:
+  - {
+      name: "aspen",
+      ethernet: "01:23:45:67:89:AB",
+      dns_name: "aspen.example.com"
+    }
+  - {
+      name: "denver",
+      ethernet: "FE:DC:BA:09:87:65",
+      dns_name: "denver.example.com"
+    }

@@ -1,0 +1,7 @@
+---
+
+- name: start dhcpd service
+  service:
+    name: isc-dhcp-server
+    state: started
+

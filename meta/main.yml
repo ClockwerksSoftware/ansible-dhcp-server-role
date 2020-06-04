@@ -1,0 +1,27 @@
+galaxy_info:
+  author: Benjamen R. Meyer
+  description: DHCPd Server Configuration
+  company: Clockwerks Software
+
+  # If the issue tracker for your role is not on github, uncomment the
+  # next line and provide a value
+  # issue_tracker_url: http://example.com/issue/tracker
+
+  license: Apache
+
+  min_ansible_version: 1.2
+
+  platforms:
+    - name: Debian
+      versions:
+        - 9
+    - name: Ubuntu
+      versions:
+        - 20.04
+    - name: Devuan
+      version:
+        - 3.0
+
+  galaxy_tags: []
+
+dependencies: []
