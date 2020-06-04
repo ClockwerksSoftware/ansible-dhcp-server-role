@@ -6,9 +6,47 @@ log-facility {{ dhcp_syslog_facility }};
 {% if dhcp_authoritative %}
 authoritative;
 {% endif %}
+{% if dhcp_failover %}
+failover peer "failover-partner" {
+{% if dhcp_failover_is_primary %}
+  primary;
+  address {{ dhcp_failover_primary }};
+  port {{ dhcp_failover_primary_port }};
+  peer address {{ dhcp_failover_secondary }};
+  peer port  {{ dhcp_failover_secondary_port }};
+  max-response-delay {{ dhcp_failover_max_response }};
+  max-unacked-updates {{ dhcp_failover_max_unack }};
+  mclt {{ dhcp_failover_mclt }};
+  split {{ dhcp_failover_split }};
+  load balance max seconds {{ dhcp_failover_load_balance }};
+{% else %}
+  secondary;
+  address {{ dhcp_failover_secondary }};
+  port {{ dhcp_failover_secondary_port }};
+  peer address {{ dhcp_failover_primary }};
+  peer port  {{ dhcp_failover_primary_port }};
+  max-response-delay {{ dhcp_failover_max_response }};
+  max-unacked-updates {{ dhcp_failover_max_unack }};
+  load balance max {{ dhcp_failover_load_balance }};
+{% endif %}
+}
+omapi-port 7911;
+omapi-key omapi_key;
+key omapi_key {
+  algorithm hmac-md5;
+  secret {{ dhcp_failover_omapi_key }};
+}
+{% endif %}
 {% for netconfig in dhcp_network_configs %}
 subnet {{ netconfig.network }} netmask {{ netconfig.netmask }} {
+{% if dhcp_failover %}
+    pool {
+        failover peer "failover-partner";
+        range {{ netconfig.range_start }} {{ netconfig.range_end }};
+    }
+{% else %}
     range {{ netconfig.range_start }} {{ netconfig.range_end }};
+{% endif %}
     option routers {% for router in netconfig.routers %}{% if loop.nextitem is defined %}{{router }}, {% else %}{{ router }};{% endif %}{% endfor %}
 
     option domain-name-servers {% for dns_server in netconfig.dns_servers %}{% if loop.nextitem is defined %}{{ dns_server }}, {% else %}{{ dns_server }};{% endif %}{% endfor %}

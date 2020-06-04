@@ -26,3 +26,16 @@ dhcp_managed_hosts:
       ethernet: "FE:DC:BA:09:87:65",
       dns_name: "denver.example.com"
     }
+dhcp_failover: False
+dhcp_failover_max_response: 60
+dhcp_failover_max_unack: 10
+dhcp_failover_mclt: 3600
+dhcp_failover_split: 128
+dhcp_failover_load_balance: 3
+dhcp_failover_is_primary: True
+dhcp_failover_primary: 'dhcp-primary.example.com'
+dhcp_failover_primary_port: 519
+dhcp_failover_secondary: 'dhcp-secondary.example.com'
+dhcp_failover_secondary_port: 520
+dhcp_failover_omapi_key: |
+    omapi_key
