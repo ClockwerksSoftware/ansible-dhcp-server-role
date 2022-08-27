@@ -1,14 +1,16 @@
 ---
 
 - name: configure interfaces
+  become: true
   lineinfile:                                                                                 
     path: /etc/default/isc-dhcp-server
     regexp: "^INTERFACESv4="
-    line: INTERFACESv4="{{ dhcp_interfaces|join(' ') }}"  
+    line: INTERFACESv4="{{ dhcp_interfaces }}"
   notify:
     - dhcpd restart 
 
 - name: configure service
+  become: true
   template:
     src: dhcpd.conf.j2
     dest: /etc/dhcp/dhcpd.conf

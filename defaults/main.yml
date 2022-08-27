@@ -1,6 +1,7 @@
 ---
-dhcp_interfaces:
-  - "eth0"
+# dhcp_interfaces has to be passed in as a variable
+# in the inventory so it has to be a string as opposed to a list
+dhcp_interfaces: "eth0"
 dhcp_domain_name: "localhost"
 dhcp_lease_time_default: 7200
 dhcp_lease_time_max: 86400

@@ -27,7 +27,7 @@ failover peer "failover-partner" {
   peer port  {{ dhcp_failover_primary_port }};
   max-response-delay {{ dhcp_failover_max_response }};
   max-unacked-updates {{ dhcp_failover_max_unack }};
-  load balance max {{ dhcp_failover_load_balance }};
+  load balance max seconds {{ dhcp_failover_load_balance }};
 {% endif %}
 }
 omapi-port 7911;
